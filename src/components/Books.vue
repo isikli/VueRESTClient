@@ -27,43 +27,29 @@
 <label>Add</label><button v-on:click="addBook">&#43;</button>
 </div>
 
-<table class="books">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Authorid </th>
-				<th>Delete</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr v-for="(book,index) in books" v-bind:key="book.id">
-				<td>{{ book.name }}</td>
-				<td>{{ book.id }}</td>
-				<td class="actions">
-					<button v-on:click="removeBook(index,book.id)">&times;</button>
-				</td>
-        </tr>
-		</tbody>
-</table>
+<ListBooks v-bind:books="books"></ListBooks>
 
 <div id="reload">
 <label>Reload</label><button v-on:click="load">&#43;</button>
 </div>
 
-<div>
-		<label>Action Result:</label>
-</div>
-<div class="box">
-		<p>{{reqResult}}</p>
-</div>
+<ActionResultPane v-bind:reqResult="reqResult"></ActionResultPane>
+
 </div>
 </template>
 
 <script>
 
 import axios from 'axios';
+import ActionResultPane from './ActionResultPane.vue'
+import ListBooks from './ListBooks.vue'
+
 
 export default {
+components: {
+  ActionResultPane,
+  ListBooks
+},
   name: 'books',
 	data: function () { return {
 		newBook: {
@@ -116,7 +102,7 @@ currentObj.reqResult = error;
       var currentObj = this;
       axios.get('http://localhost:3001/books')
       .then(response => (currentObj.books = response.data)).catch(function (error) {
-      currentObj.reqResult = error;});
+      currentObj.reqResult = error.response;});
     },
     addBook: function (e) {
      console.log ('add book');
