@@ -27,7 +27,7 @@
 <label>Add</label><button v-on:click="addBook">&#43;</button>
 </div>
 
-<ListBooks v-bind:books="books"></ListBooks>
+<ListBooks v-bind:books="books"  v-on:enlarge-text="removeBook"></ListBooks>
 
 <div id="reload">
 <label>Reload</label><button v-on:click="load">&#43;</button>
@@ -60,13 +60,15 @@ components: {
     reqResult:"",
     books: [],
     authors: [],
-    isLoading : false
+    isLoading : false,
+    BOOKS_URL:"http://localhost:3001/books",
+    AUTHORS_URL:"http://localhost:3001/authors"
     }
     },
   mounted: function () {
   let currentObj = this;
   axios
-    .get('http://localhost:3001/books')
+    .get(this.BOOKS_URL)
     .then(response => (this.books = response.data)).catch(function (error) {
 // handle error
 currentObj.reqResult = error;
@@ -83,8 +85,8 @@ currentObj.reqResult = error;
     getAuthors: function ()
     {
       let currentObj = this;
-      console.log ('getAuthors: ' + currentObj.authorName);
-      axios.get('http://localhost:3001/authors?firstName='+currentObj.authorName)
+      console.log ('getAuthors: ' +this.AUTHORS_URL);
+      axios.get(this.AUTHORS_URL+'?firstName='+currentObj.authorName)
       .then(
       function (response)
       {
@@ -100,7 +102,7 @@ currentObj.reqResult = error;
     load: function ()
     {
       var currentObj = this;
-      axios.get('http://localhost:3001/books')
+      axios.get(this.BOOKS_URL)
       .then(response => (currentObj.books = response.data)).catch(function (error) {
       currentObj.reqResult = error.response;});
     },
@@ -112,7 +114,7 @@ currentObj.reqResult = error;
       let currentObj = this;
       console.log ('add book');
 
-      axios.post('http://localhost:3001/books', {
+      axios.post(this.BOOKS_URL, {
         name: this.newBook.name,
         authorId: this.newBook.authorId
         })
@@ -130,10 +132,9 @@ currentObj.reqResult = error;
     currentObj.reqResult = error;
   });
   },
-  removeBook (index,id)
+  removeBook (id)
   {
-    axios.delete ('http://localhost:3001/books/'+id);
-    this.books.splice(index,1);
+    axios.delete (this.BOOKS_URL+'\\'+id);
   }
 }
 };

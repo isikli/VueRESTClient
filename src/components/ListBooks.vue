@@ -14,18 +14,17 @@
 				<td>{{ book.name }}</td>
 				<td>{{ book.id }}</td>
 				<td class="actions">
-					<button v-on:click="removeBook(index,book.id)">&times;</button>
+					<button v-on:click="removeBook(index,book.id)">;</button>
 				</td>
         </tr>
 		</tbody>
 </table>
 
+
 </div>
 </template>
 
 <script>
-import axios from 'axios';
-
 export default {
  props: {books:Array},
  name: 'ListBooks',
@@ -33,8 +32,8 @@ export default {
 
   removeBook (index,id)
   {
-    axios.delete ('http://localhost:3001/books/'+id);
     this.books.splice(index,1);
+    this.$emit('removebook', id);
   }
 }
 };
