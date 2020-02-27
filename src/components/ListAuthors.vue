@@ -1,20 +1,22 @@
 <template>
-<div id="listbooks">
+<div id="listauthors">
 
-<table class="books">
+<table class="authors">
 		<thead>
 			<tr>
-				<th>Title</th>
-				<th>Bookid </th>
+				<th>First Name</th>
+				<th>Last Name</th>
+        <th>Author Id</th>
 				<th>Delete</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr v-for="(book,index) in books" v-bind:key="book.id">
-				<td>{{ book.name }}</td>
-				<td>{{ book.id }}</td>
+			<tr v-for="(author,index) in authors" v-bind:key="author.id">
+				<td>{{ author.firstName }}</td>
+				<td>{{ author.lastName }}</td>
+        <td>{{ author.id }}</td>
 				<td class="actions">
-					<button v-on:click="removeBook(index,book.id)">;</button>
+					<button v-on:click="deleteAuthor(index,author.id)">;</button>
 				</td>
         </tr>
 		</tbody>
@@ -26,14 +28,14 @@
 
 <script>
 export default {
- props: {books:Array},
- name: 'ListBooks',
+ props: {authors:Array},
+ name: 'ListAuthors',
  methods: {
 
-  removeBook (index,id)
+  deleteAuthor (index,id)
   {
-    this.books.splice(index,1);
-    this.$emit('removebook', id);
+    this.authors.splice(index,1);
+    this.$emit('deleteauthor', id);
   }
 }
 };

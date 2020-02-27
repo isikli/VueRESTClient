@@ -1,7 +1,7 @@
 <template>
 <div id="books">
+
 <div class="formflds">
-<label>Title</label><input class = "title" type="text" ref="title" v-model="newBook.name" autofocus/>
 <label>Author</label><input v-debounce:300ms="getAuthors" class = "authorid" type="text" v-model="authorName"/>
 <ul
   id="autocomplete-results"
@@ -24,10 +24,16 @@
     {{ authors [i].firstName +'-'+authors [i].lastName}}
   </li>
   </ul>
+</div>
+
+<div class="formflds">
+<label>Book Title</label><input class = "title" type="text" ref="title" v-model="newBook.name" autofocus/>
 <label>Add</label><button v-on:click="addBook">&#43;</button>
 </div>
 
-<ListBooks v-bind:books="books"  v-on:enlarge-text="removeBook"></ListBooks>
+
+
+<ListBooks v-bind:books="books"  v-on:removebook="removeBook"></ListBooks>
 
 <div id="reload">
 <label>Reload</label><button v-on:click="load">&#43;</button>
@@ -154,7 +160,7 @@ $btn-size: 20px;
 {
   margin-top: 20px;
   width: 80%;
-
+  text-align: left;
 }
 table {
   table-layout: fixed;
@@ -187,16 +193,21 @@ table {
 
 	}
 
-.title {
-font-size: 12px;
-width: 28%;
-}
 
 .authorid {
-font-size: 12px;
+font-size: 15px;
 width: 24%;
 }
 
+.title {
+font-size: 15px;
+width: 24%;
+}
+
+li {
+font-size: 15px;
+width: 24%;
+}
 input[type=submit],
 button {
 	border: 1px solid darken($bdr-color, 15);
@@ -221,14 +232,6 @@ width: 80%;
 
 label {
 margin: 20px;
-}
-
-.box {
-	margin-top: 1em;
-	padding: 0.5rem;
-	background: #eee;
-  width: 80%;
-  margin: 20px;
 }
 
 </style>
