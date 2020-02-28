@@ -6,6 +6,8 @@
 			<tr>
 				<th>Title</th>
 				<th>Bookid </th>
+				<th>Author First Name </th>
+				<th>Author Last Name </th>
 				<th>Delete</th>
 			</tr>
 		</thead>
@@ -13,6 +15,8 @@
 			<tr v-for="(book,index) in books" v-bind:key="book.id">
 				<td>{{ book.name }}</td>
 				<td>{{ book.id }}</td>
+				<td>{{ book.author.firstName }}</td>
+				<td>{{ book.author.lastName }}</td>
 				<td class="actions">
 					<button v-on:click="removeBook(index,book.id)">;</button>
 				</td>

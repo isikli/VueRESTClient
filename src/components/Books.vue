@@ -28,7 +28,7 @@
 
 <div class="formflds">
 <label>Book Title</label><input class = "title" type="text" ref="title" v-model="newBook.name" autofocus/>
-<label>Add</label><button v-on:click="addBook">&#43;</button>
+<label>Add</label><button :disabled="isDisabled" v-on:click="addBook">&#43;</button>
 </div>
 
 
@@ -77,8 +77,20 @@ components: {
     .get(this.BOOKS_URL)
     .then(response => (this.books = response.data)).catch(function (error) {
 // handle error
-currentObj.reqResult = error;
+currentObj.reqResult = error.response;
 });
+},
+
+computed: {
+isDisabled: function(){
+console.log ("isDisabled" + this.newBook.authorId);
+if (this.newBook.authorId)
+{
+  return false;
+} else {
+  return true;
+}
+}
 },
 
 	methods: {
@@ -86,22 +98,27 @@ currentObj.reqResult = error;
     {
       this.authorName = author.firstName+"-"+author.lastName;
       this.newBook.authorId = author.id;
+      console.log ("setSelectedAuthor" + this.newBook.authorId);
     },
 
     getAuthors: function ()
     {
       let currentObj = this;
       console.log ('getAuthors: ' +this.AUTHORS_URL);
+      this.newBook.authorId = this.newBook.name = "";
       axios.get(this.AUTHORS_URL+'?firstName='+currentObj.authorName)
       .then(
       function (response)
       {
-        currentObj.authors = response.data;
-        console.log ("response begin");
-        console.log (currentObj.authors);
-        console.log ("response end");
+        if (response)
+        {
+          currentObj.authors = response.data;
+        } else
+        {
+          currentObj.authors = [];
+        }
       }).catch(function (error) {
-      currentObj.reqResult = error;});
+      currentObj.reqResult = error.response;});
       console.log (this.authors);
     },
 
@@ -132,7 +149,6 @@ currentObj.reqResult = error;
         id: response.data.id
       });
        currentObj.reqResult = response;
-        currentObj.newBook.name = currentObj.newBook.authorId = '';
         }).catch(function (error) {
     // handle error
     currentObj.reqResult = error;
