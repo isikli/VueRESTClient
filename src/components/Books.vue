@@ -67,15 +67,12 @@ components: {
     books: [],
     authors: [],
     isLoading : false,
-    BOOKS_URL:"http://localhost:3001/books",
-    //AUTHORS_URL:"http://localhost:3001/authors"
-    AUTHORS_URL:"https://restapi-server-node-js.herokuapp.com/books/authors"
     }
     },
   mounted: function () {
   let currentObj = this;
   axios
-    .get(this.BOOKS_URL)
+    .get(process.env.VUE_APP_BOOKS_URL)
     .then(response => (this.books = response.data)).catch(function (error) {
 // handle error
 currentObj.reqResult = error.response;
@@ -105,9 +102,9 @@ if (this.newBook.authorId)
     getAuthors: function ()
     {
       let currentObj = this;
-      console.log ('getAuthors: ' +this.AUTHORS_URL);
+      console.log ('getAuthors: ' +process.env.VUE_APP_AUTHORS_URL);
       this.newBook.authorId = this.newBook.name = "";
-      axios.get(this.AUTHORS_URL+'?firstName='+currentObj.authorName)
+      axios.get(process.env.VUE_APP_AUTHORS_URL+'?firstName='+currentObj.authorName)
       .then(
       function (response)
       {
@@ -126,10 +123,11 @@ if (this.newBook.authorId)
     load: function ()
     {
       var currentObj = this;
-      axios.get(this.BOOKS_URL)
+      axios.get(process.env.VUE_APP_BOOKS_URL)
       .then(response => (currentObj.books = response.data)).catch(function (error) {
       currentObj.reqResult = error.response;});
     },
+
     addBook: function (e) {
      console.log ('add book');
       e.preventDefault();
@@ -138,7 +136,7 @@ if (this.newBook.authorId)
       let currentObj = this;
       console.log ('add book');
 
-      axios.post(this.BOOKS_URL, {
+      axios.post(process.env.VUE_APP_BOOKS_URL, {
         name: this.newBook.name,
         authorId: this.newBook.authorId
         })
@@ -157,7 +155,7 @@ if (this.newBook.authorId)
   },
   removeBook (id)
   {
-    axios.delete (this.BOOKS_URL+'\\'+id);
+    axios.delete (process.env.VUE_APP_BOOKS_URL+'\\'+id);
   }
 }
 };

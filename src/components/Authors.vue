@@ -33,16 +33,12 @@ components: {
 		},
     reqResult:"",
     authors: [],
-    BOOKS_URL:"http://localhost:3001/books",
-    //AUTHORS_URL:"http://localhost:3001/authors"
-    AUTHORS_URL:"https://restapi-server-node-js.herokuapp.com/books/authors"
-
     }
     },
   mounted: function () {
   let currentObj = this;
   axios
-    .get(this.AUTHORS_URL)
+    .get(process.env.VUE_APP_AUTHORS_URL)
     .then(response => (this.authors = response.data)).catch(function (error) {
 // handle error
 currentObj.reqResult = error;
@@ -55,7 +51,7 @@ currentObj.reqResult = error;
   {
     let currentObj = this;
     console.log ("getAuthors")
-    axios.get(this.AUTHORS_URL+'?firstName='+currentObj.newAuthor.firstName+'&lastName='+currentObj.newAuthor.lastName)
+    axios.get(process.env.VUE_APP_AUTHORS_URL+'?firstName='+currentObj.newAuthor.firstName+'&lastName='+currentObj.newAuthor.lastName)
     .then(
     function (response)
     {
@@ -76,7 +72,7 @@ currentObj.reqResult = error;
     load: function ()
     {
       var currentObj = this;
-      axios.get(this.AUTHORS_URL)
+      axios.get(process.env.VUE_APP_AUTHORS_URL)
       .then(response => (currentObj.authors = response.data)).catch(function (error) {
       currentObj.reqResult = error.response;});
     },
@@ -87,18 +83,18 @@ currentObj.reqResult = error;
       if (this.newAuthor.firstName == '') return;
       if (this.newAuthor.lastName == '') return;
       let currentObj = this;
-      axios.post(this.AUTHORS_URL, {
+      axios.post(process.env.VUE_APP_AUTHORS_URL, {
         firstName: this.newAuthor.firstName,
         lastName: this.newAuthor.lastName
         })
       .then( function (response) {
       console.log (response.data.id);
         currentObj.reqResult = response;
-        var createdAuthor;
-        createdAuthor.authors.id = response.data.id;
-        createdAuthor.authors.firstName = response.data.firstName;
-        createdAuthor.authors.lastName = response.data.lastName;
-        currentObj.authors.push (createdAuthor);
+        currentObj.authors.push({
+         firstName: response.data.firstName,
+         lastName: response.data.lastName,
+         id: response.data.id
+        });
 
       //  currentObj.newAuthor.firstName = currentObj.newAuthor.lastName = '';
         }).catch(function (error) {
@@ -108,7 +104,7 @@ currentObj.reqResult = error;
   },
   deleteAuthor (id)
   {
-    axios.delete (this.AUTHORS_URL+'\\'+id);
+    axios.delete (process.env.VUE_APP_AUTHORS_URL+'\\'+id);
   }
 }
 };
