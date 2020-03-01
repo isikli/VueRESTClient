@@ -68,7 +68,8 @@ components: {
     authors: [],
     isLoading : false,
     BOOKS_URL:"http://localhost:3001/books",
-    AUTHORS_URL:"http://localhost:3001/authors"
+    //AUTHORS_URL:"http://localhost:3001/authors"
+    AUTHORS_URL:"https://restapi-server-node-js.herokuapp.com/books/authors"
     }
     },
   mounted: function () {

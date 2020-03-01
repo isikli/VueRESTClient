@@ -34,7 +34,9 @@ components: {
     reqResult:"",
     authors: [],
     BOOKS_URL:"http://localhost:3001/books",
-    AUTHORS_URL:"http://localhost:3001/authors"
+    //AUTHORS_URL:"http://localhost:3001/authors"
+    AUTHORS_URL:"https://ai-graphql-server-node-js.herokuapp.com/authors"
+
     }
     },
   mounted: function () {
