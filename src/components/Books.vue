@@ -31,8 +31,6 @@
 <label>Add</label><button :disabled="isDisabled" v-on:click="addBook">&#43;</button>
 </div>
 
-
-
 <ListBooks v-bind:books="books"  v-on:removebook="removeBook"></ListBooks>
 
 <div id="reload">
@@ -46,119 +44,113 @@
 
 <script>
 
-import axios from 'axios';
+import axios from 'axios'
 import ActionResultPane from './ActionResultPane.vue'
 import ListBooks from './ListBooks.vue'
 
-
 export default {
-components: {
-  ActionResultPane,
-  ListBooks
-},
+  components: {
+    ActionResultPane,
+    ListBooks
+  },
   name: 'books',
-	data: function () { return {
-		newBook: {
-			name: "",
-			authorId: "",
-		},
-    authorName:"",
-    reqResult:"",
-    books: [],
-    authors: [],
-    isLoading : false,
+  data: function () {
+    return {
+      newBook: {
+        name: '',
+        authorId: ''
+      },
+      authorName: '',
+      reqResult: '',
+      books: [],
+      authors: [],
+      isLoading: false
     }
-    },
+  },
   mounted: function () {
-  let currentObj = this;
-  axios
-    .get(process.env.VUE_APP_BOOKS_URL)
-    .then(response => (this.books = response.data)).catch(function (error) {
-// handle error
-currentObj.reqResult = error.response;
-});
-},
+    const currentObj = this
+    axios
+      .get(process.env.VUE_APP_BOOKS_URL)
+      .then(response => (this.books = response.data)).catch(function (error) {
+        // handle error
+        currentObj.reqResult = error.response
+      })
+  },
 
-computed: {
-isDisabled: function(){
-console.log ("isDisabled" + this.newBook.authorId);
-if (this.newBook.authorId)
-{
-  return false;
-} else {
-  return true;
-}
-}
-},
+  computed: {
+    isDisabled: function () {
+      console.log('isDisabled' + this.newBook.authorId)
+      if (this.newBook.authorId) {
+        return false
+      } else {
+        return true
+      }
+    }
+  },
 
-	methods: {
-    setSelectedAuthor : function (author)
-    {
-      this.authorName = author.firstName+"-"+author.lastName;
-      this.newBook.authorId = author.id;
-      console.log ("setSelectedAuthor" + this.newBook.authorId);
+  methods: {
+    setSelectedAuthor: function (author) {
+      this.authorName = author.firstName + '-' + author.lastName
+      this.newBook.authorId = author.id
+      console.log('setSelectedAuthor' + this.newBook.authorId)
     },
 
-    getAuthors: function ()
-    {
-      let currentObj = this;
-      console.log ('getAuthors: ' +process.env.VUE_APP_AUTHORS_URL);
-      this.newBook.authorId = this.newBook.name = "";
-      axios.get(process.env.VUE_APP_AUTHORS_URL+'?firstName='+currentObj.authorName)
-      .then(
-      function (response)
-      {
-        if (response)
-        {
-          currentObj.authors = response.data;
-        } else
-        {
-          currentObj.authors = [];
-        }
-      }).catch(function (error) {
-      currentObj.reqResult = error.response;});
-      console.log (this.authors);
+    getAuthors: function () {
+      const currentObj = this
+      console.log('getAuthors: ' + process.env.VUE_APP_AUTHORS_URL)
+      this.newBook.authorId = this.newBook.name = ''
+      axios.get(process.env.VUE_APP_AUTHORS_URL + '?firstName=' + currentObj.authorName)
+        .then(
+          function (response) {
+            if (response) {
+              currentObj.authors = response.data
+            } else {
+              currentObj.authors = []
+            }
+          }).catch(function (error) {
+          currentObj.reqResult = error.response
+        })
+      console.log(this.authors)
     },
 
-    load: function ()
-    {
-      var currentObj = this;
+    load: function () {
+      var currentObj = this
       axios.get(process.env.VUE_APP_BOOKS_URL)
-      .then(response => (currentObj.books = response.data)).catch(function (error) {
-      currentObj.reqResult = error.response;});
+        .then(response => (currentObj.books = response.data)).catch(function (error) {
+          currentObj.reqResult = error.response
+        })
     },
 
     addBook: function (e) {
-     console.log ('add book');
-      e.preventDefault();
-      if (this.newBook.name == '') return;
-      if (this.authorName == '') return;
-      let currentObj = this;
-      console.log ('add book');
+      console.log('add book')
+      e.preventDefault()
+      if (this.newBook.name == '') return
+      if (this.authorName == '') return
+      const currentObj = this
+      console.log('add book')
 
       axios.post(process.env.VUE_APP_BOOKS_URL, {
         name: this.newBook.name,
         authorId: this.newBook.authorId
-        })
-      .then( function (response) {
-      console.log (response);
+      })
+        .then(function (response) {
+          console.log(response)
 
-       currentObj.books.push({
-        name: currentObj.newBook.name,
-        id: response.data.id
-      });
-       currentObj.reqResult = response;
+          currentObj.books.push({
+            name: currentObj.newBook.name,
+            id: response.data.id
+          })
+          currentObj.reqResult = response
         }).catch(function (error) {
-    // handle error
-    currentObj.reqResult = error;
-  });
-  },
-  removeBook (id)
-  {
-    axios.delete (process.env.VUE_APP_BOOKS_URL+'\\'+id);
+          // handle error
+          currentObj.reqResult = error
+        })
+    },
+    removeBook (id) {
+      axios.delete(process.env.VUE_APP_BOOKS_URL + '\\' + id)
+    }
   }
 }
-};
 
 </script>
 
@@ -191,7 +183,6 @@ table {
 		background-color: #E1E7EE;
 	}
 
-
 	td {
 		border-bottom: 1px solid $bdr-color;
 		line-height: 1.2;
@@ -207,7 +198,6 @@ table {
     padding: 0.5rem;
 
 	}
-
 
 .authorid {
 font-size: 15px;

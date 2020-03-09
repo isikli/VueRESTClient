@@ -7,9 +7,9 @@
 
 <script>
 export default {
-  props:{reqResult:String},
-  name: 'ActionResultPane',
-};
+  props: { reqResult: String },
+  name: 'ActionResultPane'
+}
 </script>
 
 <style>

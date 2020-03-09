@@ -22,23 +22,21 @@
 		</tbody>
 </table>
 
-
 </div>
 </template>
 
 <script>
 export default {
- props: {authors:Array},
- name: 'ListAuthors',
- methods: {
+  props: { authors: Array },
+  name: 'ListAuthors',
+  methods: {
 
-  deleteAuthor (index,id)
-  {
-    this.authors.splice(index,1);
-    this.$emit('deleteauthor', id);
+    deleteAuthor (index, id) {
+      this.authors.splice(index, 1)
+      this.$emit('deleteauthor', id)
+    }
   }
 }
-};
 
 </script>
 
@@ -64,7 +62,6 @@ table {
     border: 1px solid black;
 		background-color: #E1E7EE;
 	}
-
 
 	td {
 		border-bottom: 1px solid $bdr-color;

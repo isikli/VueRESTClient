@@ -24,23 +24,21 @@
 		</tbody>
 </table>
 
-
 </div>
 </template>
 
 <script>
 export default {
- props: {books:Array},
- name: 'ListBooks',
- methods: {
+  props: { books: Array },
+  name: 'ListBooks',
+  methods: {
 
-  removeBook (index,id)
-  {
-    this.books.splice(index,1);
-    this.$emit('removebook', id);
+    removeBook (index, id) {
+      this.books.splice(index, 1)
+      this.$emit('removebook', id)
+    }
   }
 }
-};
 
 </script>
 
@@ -66,7 +64,6 @@ table {
     border: 1px solid black;
 		background-color: #E1E7EE;
 	}
-
 
 	td {
 		border-bottom: 1px solid $bdr-color;
